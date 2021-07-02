@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load app_tags %}
+
+{% block title %}
+    Dados / Detalhe
+{% endblock title %}
+
+{% block content %}
+    <div class="container">
+        <form action="" method="post" style="margin-bottom: 3rem;">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <div class="row">
+                <div class="col text-center">
+                    {% if blocodata.id %}
+                        <a class="btn btn-danger" href="{% url 'app:blocodata_delete' blocodata.id %}">
+                            Deletar
+                        </a>
+                    {% else %}
+                        <a class="btn btn-danger disabled" aria-disabled="true" href="#">
+                            Deletar
+                        </a>
+                    {% endif %}
+                    <a class="btn btn-success" href="{% url 'app:blocodata_list' %}">
+                        Voltar
+                    </a>
+                    <input class="btn btn-success" type="submit" value="Salvar">
+                </div>
+            </div>
+        </form>
+
+        {% if blocodata.id %}
+            <div class="row justify-content-center my-3">
+                <h4>Dados Calculados do Bloco</h4>
+            </div>
+            
+            <table class="table table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Valor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% blocodata_calculated_fields blocodata as fields %}
+                    {% for name, val in fields %}
+                        <tr>
+                            <th scope="row">{{ name }}</td>
+                            <td>{{ val|floatformat:4 }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </div>
+{% endblock content %}

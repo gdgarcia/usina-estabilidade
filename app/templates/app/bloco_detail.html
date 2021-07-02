@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+    Bloco / Detalhe
+{% endblock title %}
+
+{% block content %}
+    <form action="" method="post" style="margin-bottom: 3rem;">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <div class="row">
+            <div class="col text-center">
+                {% if bloco.id %}
+                    <a class="btn btn-danger" href="{% url 'app:bloco_delete' bloco.id %}">
+                        Deletar
+                    </a>
+                {% else %}
+                    <a class="btn btn-danger disabled" aria-disabled="true" href="#">
+                        Deletar
+                    </a>
+                {% endif %}
+                <a class="btn btn-success" href="{% url 'app:bloco_list' %}">
+                    Voltar
+                </a>
+                <input class="btn btn-success" type="submit" value="Salvar">
+            </div>
+        </div>
+    </form>
+{% endblock content %}
+    
+    

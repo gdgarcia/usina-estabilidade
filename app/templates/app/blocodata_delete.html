@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Dados / Deletar
+{% endblock title %}
+
+{% block content %}
+    <div class="row">
+        <div class="col text-center">
+            <h1>Deletar o dado {{ blocodata.nome }}</h1>
+            <form action="" method="post">
+                {% csrf_token %}
+                <p class="lead">Deseja realmente deletar o dado {{ blocodata.nome }}?</p>
+                <a class="btn btn-success"  href="{% url 'app:blocodata_detail' blocodata.id %}">
+                    Voltar ao dado
+                </a>
+                <a class="btn btn-success"  href="{% url 'app:blocodata_list' %}">
+                    Voltar à lista
+                </a>
+                <input type="submit" class="btn btn-danger" value="Deletar">
+            </form>
+        </div>
+    </div>
+{% endblock content %}

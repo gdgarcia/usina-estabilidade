@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Usina / Deletar
+{% endblock title %}
+
+{% block content %}
+    <div class="row">
+        <div class="col text-center">
+            <h1>Deletar Usina {{ usina.nome }}</h1>
+            <form method="post">
+                {% csrf_token %}
+                <p class="lead">Deseja realmente deletar a usina {{ usina.nome }}?</p>
+                <a class="btn btn-success" href="{% url 'app:usina_detail' usina.id %}">
+                    Voltar à usina
+                </a>
+                <a class="btn btn-success" href="{% url 'app:usina_list' %}">
+                    Voltar à lista
+                </a>
+                <input class="btn btn-danger" type="submit" value="Deletar">
+            </form>
+        </div>
+    </div>
+{% endblock content %}
+    

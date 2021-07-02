@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+    Plot
+{% endblock title %}
+
+{% block content %}
+        {% if bokeh_div %}
+            <div class="d-flex justify-content-center">
+                {{ bokeh_div | safe }}
+            </div>
+        {% endif %}
+        <form action="{% url 'app:plot_data' %}" method="get">
+            {{ plot_form|crispy }}
+            <div class="row" style="margin-top: 1.5rem; margin-bottom: 3.0rem;">
+                <div class="col text-center">
+                    <input class="btn btn-dark" type="submit" value="Plot Dados">
+                </div>
+            </div>
+        </form>
+{% endblock content %}
+
+{% block script %}
+    {{ bokeh_script | safe }}
+    <script>
+        $(document).ready(function () {
+            $("#id_data_initial, #id_data_final").datetimepicker({
+                format: 'd/m/Y H:i',
+
+            });
+        });
+    </script>
+{% endblock script %}

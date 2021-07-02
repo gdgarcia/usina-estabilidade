@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Dados
+{% endblock title %}
+
+{% block content %}
+    <div class="card-deck">
+        {% for blocodata in all_blocodata_list %}
+            <div class="card text-center" style="width: 18rem;">
+                <img class="card-img-top img-thumbnail"src="{% static 'app/img/dam-default.png' %}" alt="Bloco {{bloco.nome}}">
+                <div class="card-body justify-content-center">
+                    <h5 class="card-title">{{ blocodata.nome }}</h5>
+                    <!-- <p class="card-text">
+                        {{ usina.descricao }}
+                    </p> -->
+                    <a href="{% url 'app:blocodata_delete' blocodata.id %}" class="btn btn-danger mt-auto">Deletar</a>
+                    <a href="{% url 'app:blocodata_detail' blocodata.id %}" class="btn btn-secondary mt-auto">Editar</a>
+                    <a href="{% url 'app:blocodata_duplicate' blocodata.id%}" class="btn btn-secondary mt-auto">Duplicar</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="row my-5">
+        <div class="col text-center">
+            <a href="{% url 'app:blocodata_create' %}" class="btn btn-secondary btn-lg">+ Inserir dado</a>
+        </div>
+    </div>
+{% endblock content %}

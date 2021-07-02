@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Bloco / Deletar
+{% endblock title %}
+
+{% block content %}
+    <div class="row">
+        <div class="col text-center">
+            <h1>Deletar o Bloco {{ bloco.nome }}</h1>
+            <form action="" method="post">
+                {% csrf_token %}
+                <p class="lead">Deseja realmente deletar o bloco {{ bloco.nome }}?</p>
+                <p>Todos os dados relacionados a este bloco serão deletados permanentemente.</p>
+                <a class="btn btn-success"  href="{% url 'app:bloco_detail' bloco.id %}">
+                    Voltar ao bloco
+                </a>
+                <a class="btn btn-success"  href="{% url 'app:bloco_list' %}">
+                    Voltar à lista
+                </a>
+                <input type="submit" class="btn btn-danger" value="Deletar">
+            </form>
+        </div>
+    </div>
+{% endblock content %}
