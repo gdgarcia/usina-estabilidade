@@ -11,17 +11,26 @@ class UsinaAdmin(admin.ModelAdmin):
 
 class NrVolCoeffInline(admin.TabularInline):
     model = NrVolCoeff
-    extra = 0
+    # garantir que o modelo requeira nr_coeff antes de ser salvo
+    extra = 1
+    min_num = 1
+    max_num = 1
+    can_delete = False
 
 
 class NrXcgCoeffInline(admin.TabularInline):
     model = NrXcgCoeff
-    extra = 0
+    # garantir que o modelo requeira xcg_coeff antes de ser salvo
+    extra = 1
+    min_num = 1
+    max_num = 1
+    can_delete = False
 
 
 @admin.register(Bloco)
 class BlocoAdmin(admin.ModelAdmin):
     inlines = [NrVolCoeffInline, NrXcgCoeffInline]
+    exclude = ('nr_vol_coeff', 'nr_xcg_coeff')
 
 
 @admin.register(BlocoData)

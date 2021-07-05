@@ -4,6 +4,7 @@ from django.urls import reverse
 
 from . import stability_equations as stab_eqs
 
+
 class Usina(models.Model):
     nome = models.CharField(max_length=50)
     descricao = models.TextField(max_length=100, blank=True, null=True)
