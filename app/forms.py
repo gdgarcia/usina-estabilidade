@@ -12,6 +12,8 @@ class PlotSelectionForm(forms.Form):
         empty_label='Selecione a usina...',
     )
     bloco = forms.ModelChoiceField(
+        # none. passaremos os valores via ajax apos usuario selecionar a usina
+        # queryset=Bloco.objects.none(),  # para quando ajax ok
         queryset=Bloco.objects.all(),
         empty_label='Selecione o bloco...'
     )

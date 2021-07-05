@@ -48,7 +48,7 @@ class Bloco(models.Model):
     angulo_sedimento = models.FloatField()
 
     def __str__(self):
-        return f"{self.usina} | {self.nome}"
+        return f"{self.nome} | {self.usina}"
     
     def get_absolute_url(self):
         return reverse('app:bloco_detail', kwargs={'pk': self.id})

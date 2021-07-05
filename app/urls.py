@@ -47,8 +47,6 @@ urlpatterns = [
      path('plot/', views.PlotBlocoDataView.as_view(), 
           name='plot_data'),
 
-     # other urls
-     path('bloco_data/<int:pk>/', views.BlocoDataDetailView.as_view(),
-         name='bloco_data_detail'),
-     path('bloco/<int:pk>/', views.bloco_detail, name='bloco_detail'),
+     # ajax urls
+     # path('ajax/carrega-blocos/', views.carrega_blocos, name='carrega_blocos_ajax'),
 ]

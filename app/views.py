@@ -292,25 +292,7 @@ class PlotBlocoDataView(TemplateView):
                        'bokeh_div': bokeh_div})
 
 
-def bloco_detail(request, pk):
-
-    bloco = get_object_or_404(Bloco, pk=pk)
-
-    dados = bloco.data.all()
-
-    fst = [dado.fst for dado in dados]
-    data = [str(dado.data) for dado in dados]
-    nome = bloco.nome
-
-    return render(
-        request, 'app/bloco_detail.html',
-        {'dados': fst, 'datas': data, 'nome_bloco': nome}
-    )
-
-
-def chart(request):
-
-    return render(request, 'app/chart.html', {
-        'labels':['São Paulo', 'Corinthians', 'Santos', 'Palmeiras'],
-        'data': [100., 200., 300., 400.], 
-    })
+def carrega_blocos(request):
+    usina_id = request.GET.get('usina')
+    blocos = Bloco.objects.filter(usina=usina_id).order_by('nome')
+    return render(request, 'app/home.html', {'blocos': blocos})
