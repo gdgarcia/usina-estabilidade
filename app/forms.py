@@ -3,7 +3,7 @@ from django.core.exceptions import ValidationError
 
 from tempus_dominus.widgets import DateTimePicker
 
-from .models import Usina, Bloco
+from .models import Usina, Bloco, NrVolCoeff, NrXcgCoeff
 
 
 class PlotSelectionForm(forms.Form):
@@ -45,3 +45,22 @@ class PlotSelectionForm(forms.Form):
                     f'Escolha a usina a que o bloco pertence.'
                 )
         return cleaned_data
+
+
+
+class BlocoForm(forms.ModelForm):
+    class Meta:
+        model = Bloco
+        fields = '__all__'
+
+
+class NrVolCoeffForm(forms.ModelForm):
+    class Meta:
+        model = NrVolCoeff
+        exclude = ['bloco']
+
+
+class NrXcgCoeffForm(forms.ModelForm):
+    class Meta:
+        model = NrXcgCoeff
+        exclude = ['bloco']
