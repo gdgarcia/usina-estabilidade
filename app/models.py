@@ -7,6 +7,8 @@ from . import stability_equations as stab_eqs
 class Usina(models.Model):
     nome = models.CharField(max_length=50)
     descricao = models.TextField(max_length=100, blank=True, null=True)
+    min_fst = models.FloatField(default=1.0)
+    min_fsd = models.FloatField(default=1.0)
 
     def __str__(self):
         return self.nome
