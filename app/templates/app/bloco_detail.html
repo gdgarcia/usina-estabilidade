@@ -8,7 +8,9 @@
 {% block content %}
     <form action="" method="post" style="margin-bottom: 3rem;">
         {% csrf_token %}
-        {{ form|crispy }}
+        {{ bloco_form|crispy }}
+        {{ nr_vol_coeff_form | crispy }}
+        {{ nr_xcg_coeff_form | crispy }}
         <div class="row">
             <div class="col text-center">
                 {% if bloco.id %}

@@ -1,4 +1,5 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse
 from django.views.generic import TemplateView, ListView
 from django.views.generic.edit import (
     UpdateView, CreateView, DeleteView 
@@ -6,8 +7,13 @@ from django.views.generic.edit import (
 from django.urls import reverse_lazy
 from django.db.models import Q
 
-from .models import Usina, Bloco, BlocoData
-from .forms import PlotSelectionForm
+from .models import Usina, Bloco, BlocoData, NrVolCoeff, NrXcgCoeff
+from .forms import (
+    PlotSelectionForm,
+    BlocoForm,
+    NrVolCoeffForm,
+    NrXcgCoeffForm
+)
 from .plotting import plot_figure
 
 
@@ -103,15 +109,53 @@ class BlocoListView(ListView):
         return context
 
 
-class BlocoDetailView(UpdateView):
-    model = Bloco
+class BlocoDetailView(TemplateView):
     template_name = 'app/bloco_detail.html'
-    fields = '__all__'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['page'] = 'blocos'
-        return context
+    def get(self, request, pk):
+        bloco = get_object_or_404(Bloco, pk=pk)
+        nr_vol_coeff = get_object_or_404(NrVolCoeff, bloco=bloco)
+        nr_xcg_coeff = get_object_or_404(NrXcgCoeff, bloco=bloco)
+        bloco_form = BlocoForm(instance=bloco)
+        nr_vol_coeff_form = NrVolCoeffForm(instance=nr_vol_coeff)
+        nr_xcg_coeff_form = NrXcgCoeffForm(instance=nr_xcg_coeff)
+        return render(request, self.template_name, {
+            'bloco_form': bloco_form, 'nr_vol_coeff_form': nr_vol_coeff_form,
+            'nr_xcg_coeff_form': nr_xcg_coeff_form, 'bloco': bloco,
+            'page': 'blocos' 
+        })
+    
+    def post(self, request, pk):
+        # TODO: terminar essar funcao. Devemos validar os forms e salva-los
+        # adequamente. Lembrando de salvar o blocos de modo correto
+        bloco = get_object_or_404(Bloco, pk=pk)
+        nr_vol_coeff = get_object_or_404(NrVolCoeff, bloco=bloco)
+        nr_xcg_coeff = get_object_or_404(NrXcgCoeff, bloco=bloco)
+        bloco_form = BlocoForm(request.POST, instance=bloco)
+        nr_vol_coeff_form = NrVolCoeffForm(request.POST,
+                                           instance=nr_vol_coeff)
+        nr_xcg_coeff_form = NrXcgCoeffForm(request.POST,
+                                           instance=nr_xcg_coeff)
+        if (
+            bloco_form.is_valid() and
+            nr_vol_coeff_form.is_valid() and
+            nr_xcg_coeff_form.is_valid()
+        ):
+            bloco_form.save()
+            nr_vol = nr_vol_coeff_form.save(commit=False)
+            nr_vol.bloco = bloco
+            nr_vol.save()
+            nr_xcg = nr_xcg_coeff_form.save(commit=False)
+            nr_xcg.bloco = bloco
+            nr_xcg.save()
+            return redirect(bloco.get_absolute_url())
+            
+        else:
+            return render(self.request, self.template_name,
+                {'bloco_form': bloco_form,
+                 'nr_vol_coeff_form': nr_vol_coeff_form,
+                 'nr_xcg_coeff_form': nr_xcg_coeff_form, 'bloco': bloco,
+                 'page': 'blocos' })
 
 
 class BlocoCreateView(CreateView):
@@ -241,7 +285,7 @@ class BlocoDataDuplicateView(CreateView):
     def get_initial(self):
         initial = super().get_initial()
         pk = self.kwargs['pk']
-        blocodata = self.model.objects.get(pk=pk)
+        blocodata =  get_object_or_404(self.model, pk=pk)
         initial.update({
             'data': blocodata.data,
             'bloco': blocodata.bloco,

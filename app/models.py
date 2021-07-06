@@ -64,16 +64,19 @@ class NrVolCoeff(models.Model):
         related_name='nr_vol_coeff',
         primary_key=True
     )
-    c0 = models.FloatField(help_text='coeficiente ordem 0: nr^0')
-    c1 = models.FloatField(help_text='coeficiente ordem 1: nr^1')
-    c2 = models.FloatField(help_text='coeficiente ordem 2: nr^2')
+    vol_c0 = models.FloatField(verbose_name='c0',
+                               help_text='coeficiente ordem 0: nr^0')
+    vol_c1 = models.FloatField(verbose_name='c1',
+                               help_text='coeficiente ordem 1: nr^1')
+    vol_c2 = models.FloatField(verbose_name='c2',
+                               help_text='coeficiente ordem 2: nr^2')
 
     def __str__(self):
         return f"nr-vol-coeffs | {self.bloco}"
     
     @property
     def poly(self):
-        return Polynomial([self.c0, self.c1, self.c2])
+        return Polynomial([self.vol_c0, self.vol_c1, self.vol_c2])
 
 
 class NrXcgCoeff(models.Model):
@@ -83,17 +86,21 @@ class NrXcgCoeff(models.Model):
         related_name='nr_xcg_coeff',
         primary_key=True
     )
-    c0 = models.FloatField(help_text='coeficiente ordem 0: nr^0')
-    c1 = models.FloatField(help_text='coeficiente ordem 1: nr^1')
-    c2 = models.FloatField(help_text='coeficiente ordem 2: nr^2')
-    c3 = models.FloatField(help_text='coeficiente ordem 3: nr^3')
+    xcg_c0 = models.FloatField(verbose_name='c0',
+                               help_text='coeficiente ordem 0: nr^0')
+    xcg_c1 = models.FloatField(verbose_name='c1',
+                               help_text='coeficiente ordem 1: nr^1')
+    xcg_c2 = models.FloatField(verbose_name='c2',
+                               help_text='coeficiente ordem 2: nr^2')
+    xcg_c3 = models.FloatField(verbose_name='c0',
+                               help_text='coeficiente ordem 3: nr^3')
 
     def __str__(self):
         return f"nr-xcg-coeffs | {self.bloco}"
     
     @property
     def poly(self):
-        return Polynomial([self.c0, self.c1, self.c2, self.c3])
+        return Polynomial([self.xcg_c0, self.xcg_c1, self.xcg_c2, self.xcg_c3])
 
 
 class BlocoData(models.Model):
