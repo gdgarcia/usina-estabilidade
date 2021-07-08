@@ -354,7 +354,8 @@ class PlotBlocoDataView(TemplateView):
                 dados = [getattr(b, attr) for b in blocodata_plot_list]
                 datas = [b.data for b in blocodata_plot_list]
                 bokeh_script, bokeh_div = plot_figure(
-                    datas, dados, "x - axis", "y - axis", "Title Teste"
+                    datas, dados, "data", f"{attr.upper()}",
+                    f"{attr.upper()} - {bloco}"
                 )
         else:
             plot_form = PlotSelectionForm()

@@ -12,8 +12,11 @@ def plot_figure(x_data, y_data, x_label="", y_label="", title="",
     fig = figure(title=title, x_axis_type="datetime",
                  plot_width=width, plot_height=height,
                  tools='pan,box_zoom,wheel_zoom,save,reset')
+    
+    fig.title.align = 'center'
 
     fig.yaxis.formatter.use_scientific = False
+    fig.yaxis.axis_label = y_label
 
     fig.xaxis.formatter = DatetimeTickFormatter(
         hours=str_format,
