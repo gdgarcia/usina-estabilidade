@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     # third party. must be installed before admin
     'dal',  # django-autocomplete-light
     'dal_select2',  # django-autocomplete-light
+    'dal_queryset_sequence',
     # default apps
     'django.contrib.admin',
     'django.contrib.auth',

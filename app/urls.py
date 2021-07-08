@@ -1,7 +1,5 @@
 from django.urls import path
 
-from django.views.generic import TemplateView
-
 from . import views
 
 app_name = 'app'
@@ -48,5 +46,6 @@ urlpatterns = [
           name='plot_data'),
 
      # ajax urls
-     # path('ajax/carrega-blocos/', views.carrega_blocos, name='carrega_blocos_ajax'),
+     path('ajax/carrega-blocos/', views.BlocoAutoComplete.as_view(),
+          name='bloco-autocomplete'),
 ]

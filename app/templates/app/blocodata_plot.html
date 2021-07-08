@@ -12,14 +12,16 @@
                 {{ bokeh_div | safe }}
             </div>
         {% endif %}
-        <form action="{% url 'app:plot_data' %}" method="get">
-            {{ plot_form|crispy }}
-            <div class="row" style="margin-top: 1.5rem; margin-bottom: 3.0rem;">
-                <div class="col text-center">
-                    <input class="btn btn-dark" type="submit" value="Plot Dados">
+        <div class="container-fluid">
+            <form action="{% url 'app:plot_data' %}" method="get">
+                {{ plot_form | crispy }}
+                <div class="row" style="margin-top: 1.5rem; margin-bottom: 3.0rem;">
+                    <div class="col text-center">
+                        <input class="btn btn-dark" type="submit" value="Plot Dados">
+                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
 {% endblock content %}
 
 {% block script %}
@@ -32,4 +34,7 @@
             });
         });
     </script>
+
+    {{ plot_form.media }}
+
 {% endblock script %}

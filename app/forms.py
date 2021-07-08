@@ -1,7 +1,7 @@
+from dal import autocomplete
+
 from django import forms
 from django.core.exceptions import ValidationError
-
-from tempus_dominus.widgets import DateTimePicker
 
 from .models import Usina, Bloco, NrVolCoeff, NrXcgCoeff
 
@@ -11,21 +11,28 @@ class PlotSelectionForm(forms.Form):
         queryset=Usina.objects.all(),
         empty_label='Selecione a usina...',
     )
+
     bloco = forms.ModelChoiceField(
-        # none. passaremos os valores via ajax apos usuario selecionar a usina
-        # queryset=Bloco.objects.none(),  # para quando ajax ok
         queryset=Bloco.objects.all(),
-        empty_label='Selecione o bloco...'
+        empty_label='Selecione o bloco...',
+        widget=autocomplete.ModelSelect2(
+            url='app:bloco-autocomplete',
+            attrs={'data-placeholder':'Selecione o bloco...'},
+            forward=('usina',),
+        )
     )
+
     tipo = forms.ChoiceField(
         required=True,
         choices=(
             ('fsd', 'Fator FSD'), ('fst', 'Fator FST'),
         )
     )
+
     data_initial = forms.DateTimeField(
         input_formats=['%d/%m/%Y %H:%M']
     )
+
     data_final = forms.DateTimeField(
         input_formats=['%d/%m/%Y %H:%M']
     )
@@ -41,11 +48,13 @@ class PlotSelectionForm(forms.Form):
         if usina and bloco:
             if bloco.usina != usina:
                 raise ValidationError(
-                    f'O bloco {bloco.nome} nao pertence a usina {usina.nome}. '
-                    f'Escolha a usina a que o bloco pertence.'
+                    {'bloco': (f'O bloco {bloco.nome} nao pertence a '
+                               f'usina {usina.nome}. Escolha a usina a que o '
+                               f'bloco pertence.')
+                    },
+                    code='invalid'
                 )
         return cleaned_data
-
 
 
 class BlocoForm(forms.ModelForm):

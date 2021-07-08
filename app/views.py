@@ -1,3 +1,4 @@
+from dal import autocomplete
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.views.generic import TemplateView, ListView
@@ -365,7 +366,11 @@ class PlotBlocoDataView(TemplateView):
                        'bokeh_div': bokeh_div})
 
 
-def carrega_blocos(request):
-    usina_id = request.GET.get('usina')
-    blocos = Bloco.objects.filter(usina=usina_id).order_by('nome')
-    return render(request, 'app/home.html', {'blocos': blocos})
+class BlocoAutoComplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        usina = self.forwarded.get('usina', None)
+
+        if usina:
+            return Bloco.objects.filter(usina=usina).order_by('nome')
+        else:
+            return Bloco.objects.none()
