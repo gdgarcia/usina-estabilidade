@@ -208,52 +208,6 @@ class BlocoDeleteView(DeleteView):
         return context
 
 
-# class BlocoDuplicateView(CreateView):
-#     model = Bloco
-#     template_name = 'app/bloco_detail.html'
-#     fields = '__all__'
-
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context['page'] = 'blocos'
-#         return context
-    
-#     def get_initial(self):
-#         initial = super().get_initial()
-#         pk = self.kwargs['pk']
-#         bloco = self.model.objects.get(pk=pk)
-#         initial.update({
-#             'nome':  bloco.nome,
-#             'usina': bloco.usina,
-#             'volume_bloco': bloco.volume_bloco,
-#             'xcg_bloco': bloco.xcg_bloco,
-#             'largura': bloco.largura,
-#             'comprimento': bloco.comprimento,
-#             'area': bloco.area,
-#             'cota_base_montante': bloco.cota_base_montante,
-#             'cota_base_jusante': bloco.cota_base_jusante,
-#             'cota_ogiva': bloco.cota_ogiva,
-#             'cota_sedimento': bloco.cota_sedimento,
-#             'cota_terreno': bloco.cota_terreno,
-#             'v_enchimento': bloco.v_enchimento,
-#             'xcg_enchimento': bloco.xcg_enchimento,
-#             'dist_xm': bloco.dist_xm,
-#             'dist_xi': bloco.dist_xi,
-#             'dist_xj': bloco.dist_xj,
-#             'gamma_concreto': bloco.gamma_concreto,
-#             'gamma_agua': bloco.gamma_agua,
-#             'gamma_enchimento': bloco.gamma_enchimento,
-#             'gamma_sedimento': bloco.gamma_sedimento,
-#             'phi': bloco.phi,
-#             'c': bloco.c,
-#             'gamma_phi': bloco.gamma_phi,
-#             'gamma_c': bloco.gamma_c,
-#             'angulo_sedimento': bloco.angulo_sedimento,
-#         })
-#         return initial
-    
-#     def get_success_url(self):
-#         return reverse_lazy('app:bloco_detail', kwargs={'pk': self.object.pk})
 class BlocoDuplicateView(TemplateView):
     template_name = 'app/bloco_detail.html'
 
@@ -262,8 +216,11 @@ class BlocoDuplicateView(TemplateView):
         nr_vol_coeff = get_object_or_404(NrVolCoeff, bloco=bloco)
         nr_xcg_coeff = get_object_or_404(NrXcgCoeff, bloco=bloco)
         bloco.id = None
+        bloco._state.adding = True
         nr_vol_coeff.bloco = None
+        nr_vol_coeff._state.adding = True
         nr_xcg_coeff.bloco = None
+        nr_xcg_coeff._state.adding = True
         bloco_form = BlocoForm(instance=bloco)
         nr_vol_coeff_form = NrVolCoeffForm(instance=nr_vol_coeff)
         nr_xcg_coeff_form = NrXcgCoeffForm(instance=nr_xcg_coeff)

@@ -47,7 +47,7 @@
                     {% for name, val in fields %}
                         <tr>
                             <th scope="row">{{ name }}</td>
-                            <td>{{ val|floatformat:4 }}</td>
+                            <td>{{ val | floatformat:4 }}</td>
                         </tr>
                     {% endfor %}
                 </tbody>
@@ -55,3 +55,14 @@
         {% endif %}
     </div>
 {% endblock content %}
+
+
+{% block script %}
+    <script>
+        $(document).ready(function (){
+            $("#id_data").datetimepicker({
+                format: 'Y-m-d H:i:s',
+            });
+        });
+    </script>
+{% endblock script %}
