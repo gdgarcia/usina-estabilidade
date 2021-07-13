@@ -7,7 +7,7 @@ from bokeh.embed import components
 
 def plot_figure(x_data, y_data, x_label="", y_label="", title="", 
                 width=900, height=600, str_format="%d %B %Y %H:%M",
-                label_orientation=pi/4.):
+                label_orientation=pi/4., support_line_min=None):
     
     fig = figure(title=title, x_axis_type="datetime",
                  plot_width=width, plot_height=height,
@@ -43,6 +43,12 @@ def plot_figure(x_data, y_data, x_label="", y_label="", title="",
 
     fig.line(x_data, y_data)
     fig.circle(x_data, y_data, size=2.)
+
+    if support_line_min is not None:
+        # inserindo o valor minimo de seguranca definido para a usina
+        fig.line(x_data, [support_line_min] * len(x_data),
+                line_color='darkred', line_dash='dashed', line_width=2,
+                legend_label='Lim. Segurança')
 
     bokeh_script, bokeh_div = components(fig)
 
