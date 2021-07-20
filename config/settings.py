@@ -114,9 +114,10 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-TIME_ZONE = 'America/Sao_Paulo'
+# default time_zone configuration
+# TIME_ZONE = 'UTC'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Sao_Paulo'
 
 USE_I18N = True
 
