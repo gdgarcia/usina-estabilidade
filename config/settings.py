@@ -32,7 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     # third party. must be installed before admin
-    'dal',  # django-autocomplete-light
+    'dal',  # django-autocomplete-ligh
     'dal_select2',  # django-autocomplete-light
     'dal_queryset_sequence',
     # default apps
@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     # own apps
     'app.apps.AppConfig',
+    'sensor_data.apps.SensorDataConfig',
 ]
 
 MIDDLEWARE = [
