@@ -1,11 +1,7 @@
-from copy import deepcopy, copy
+from copy import deepcopy
 from bisect import bisect_left
 from datetime import datetime, timedelta
 from statistics import mean
-from dateutil import tz
-
-
-TZ_INFO = tz.gettz('America/Sao_Paulo')
 
 
 def _get_closest_date_or_new(key, dt_ordered, tol):
@@ -69,11 +65,11 @@ def _recalculate_keys(out):
 
         ts_lst = [entry['data'].timestamp() for entry in val]
 
-        dt_min = datetime.fromtimestamp(min(ts_lst)).replace(tzinfo=TZ_INFO)
+        dt_min = datetime.fromtimestamp(min(ts_lst))
 
-        dt_mean = datetime.fromtimestamp(mean(ts_lst)).replace(tzinfo=TZ_INFO)
+        dt_mean = datetime.fromtimestamp(mean(ts_lst))
 
-        dt_max = datetime.fromtimestamp(max(ts_lst)).replace(tzinfo=TZ_INFO)
+        dt_max = datetime.fromtimestamp(max(ts_lst))
         
         new_key = dt_mean.date()
 
@@ -338,6 +334,11 @@ def filter_incomplete_data(out, instruments_count):
     for key, val in out.items():
         if len(val) < instruments_count:
             failed[key] = deepcopy(out[key])
+    
+    # apos localizarmos e copiarmos os valores com problemas, devemos tirar
+    # dos dados
+    for key in failed:
+        out.pop(key)
 
     return out, failed
 

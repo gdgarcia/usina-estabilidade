@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+    Visualizador de dados
+{% endblock title %}
+
+{% block content %}
+    <h1>Os seguintes dados da usina  <i>{{ usina.nome }}</i>  obtidos  </h1>
+    
+    <div class="table-responsive-md">
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Data</td>
+                        {% for campo in campos %}
+                    <th scope="col">{{ campo }}</td>
+                        {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for data in dados %}
+                    <tr>
+                        {% for dado in data %}
+                            {% if forloop.first %}
+                                <th scope="row">
+                                    {{ dado|date:"d-m-y H:i" }}
+                                </th>
+                            {% else %}
+                                <td>
+                                    {{ dado|floatformat:2 }}
+                                </td>
+                            {% endif %}
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="d-flex justify-content-center my-3">
+        <a class="btn btn-danger mx-3" href="{% url 'sensor_data:load_data' %}">
+            Voltar
+        </a>
+        <form action="" method="post">
+            {% csrf_token %}
+            <input class="btn btn-success mx-3" type="submit" name="" id="" value="Salvar">
+        </form>
+    </div>
+
+{% endblock content %}

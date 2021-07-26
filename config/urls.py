@@ -22,6 +22,7 @@ urlpatterns = [
     # path('accounts/', include('accounts.urls', namespace='accounts')),
     # url for the auth User model and stuff
     path('accounts/', include('django.contrib.auth.urls')),
+    path('loader/', include('sensor_data.urls', namespace='sensor_data')),
     path('', include('app.urls', namespace='app')),
     path('admin/', admin.site.urls),
 ]
