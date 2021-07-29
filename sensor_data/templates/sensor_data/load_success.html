@@ -7,4 +7,9 @@
 
 {% block content %}
     <h1>A seleção de dados foi bem sucessidada.</h1>
+    <div class="flex-d justify-content-center">
+        <a href="{% url 'sensor_data:load_data' %}">
+            <p class="lead">Voltar ao carregamento de dados</p>
+        </a>
+    </div>
 {% endblock content %}

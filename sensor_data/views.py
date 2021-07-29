@@ -89,13 +89,16 @@ def data_uploaded_view(request):
                 salvar, transf = True, True
             else:
                 salvar, transf = False, False
-            
+
             if salvar:
                 bundle_data_ids = save_bundle(out, campos, usina)
                 if transf:
                     pass
+            
+            del request.session['temp_file_name']
+            os.remove(temp_file_name)
 
-            return redirect(reverse('sensor_data:load_data'))
+            return render(request, 'sensor_data/load_success.html')
     else:
         save_form = BundleSaveForm()
 
