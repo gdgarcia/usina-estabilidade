@@ -78,3 +78,21 @@ class FolderSelectionForm(forms.Form):
         label='Separador decimal manuais',
         help_text='Caracter que indica a separação decimal nos manuais',
     )
+
+
+class BundleSaveForm(forms.Form):
+    SALVAR_DADOS = 'sv'
+    SALVAR_E_TRANSFORMAR = 'svt'
+    NAO_SALVAR = 'd'
+
+    SALVAR_DADOS_OPCOES = [
+        (None, 'Selecione a opção...'),
+        (SALVAR_DADOS, 'Salvar os dados'),
+        (SALVAR_E_TRANSFORMAR, 'Salvar dados e converter dados'),
+        (NAO_SALVAR, 'Descartar os dados'),
+    ]
+
+    salvar_dados = forms.ChoiceField(
+        choices=SALVAR_DADOS_OPCOES,
+        label='Opções para salvar dados',
+    )

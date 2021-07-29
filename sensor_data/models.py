@@ -14,7 +14,8 @@ class BundleData(models.Model):
 
     class Meta:
         unique_together = ['usina', 'bundle_data']
-    
+        verbose_name_plural = 'Pacotes de Dados'
+
     def __str__(self):
         return f'{self.usina} | {self.bundle_data}'
 
