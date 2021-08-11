@@ -78,27 +78,30 @@ def data_uploaded_view(request):
             (key, *dado)
         )
 
-
     if request.method == 'POST':
         save_form = BundleSaveForm(request.POST)
         if save_form.is_valid():
             salvar_dados = save_form.cleaned_data['salvar_dados']
             if salvar_dados == 'sv':
-                salvar, transf = True, False
-            elif salvar_dados == 'svt':
-                salvar, transf = True, True
+                created, updated = save_bundle(out, campos, usina,
+                                               update=False)
+                discarded = False
+            elif salvar_dados == 'sva':
+                created, updated = save_bundle(out, campos, usina,
+                                               update=True)
+                discarded = False
             else:
-                salvar, transf = False, False
+                # opcao de descartar os dados foi selecionada.
+                # nao fazemos nada e apagamos o temp_file_name
+                created, updated = 0, 0
+                discarded = True
 
-            if salvar:
-                bundle_data_ids = save_bundle(out, campos, usina)
-                if transf:
-                    pass
-            
             del request.session['temp_file_name']
             os.remove(temp_file_name)
 
-            return render(request, 'sensor_data/load_success.html')
+            return render(request, 'sensor_data/load_success.html',
+                          {'discarded': discarded, 'created': created,
+                           'updated': updated})
     else:
         save_form = BundleSaveForm()
 

@@ -10,6 +10,7 @@ class Usina(models.Model):
     descricao = models.TextField(max_length=100, blank=True, null=True)
     min_fst = models.FloatField(default=1.0)
     min_fsd = models.FloatField(default=1.0)
+    qtd_sensores = models.IntegerField(default=1)
 
     def __str__(self):
         return self.nome
@@ -49,6 +50,29 @@ class Bloco(models.Model):
     gamma_phi = models.FloatField()
     gamma_c = models.FloatField()
     angulo_sedimento = models.FloatField()
+
+    # campos para selecao dos piezometros
+
+    ESCOLHAS_RELACAO = [
+        ('min', 'Mínimo entre piezômetros'),
+        ('max', 'Máximo entre piezômetros'),
+        ('avg', 'Média entre piezômetros'),
+    ]
+    
+    pz_m_0 = models.IntegerField()
+    pz_m_rel = models.CharField(max_length=3, choices=ESCOLHAS_RELACAO,
+                                verbose_name='Escolha relação m')
+    pz_m_1 = models.IntegerField(null=True, blank=True)
+
+    pz_i_0 = models.IntegerField()
+    pz_i_rel = models.CharField(max_length=3, choices=ESCOLHAS_RELACAO,
+                                verbose_name='Escolha relação i')
+    pz_i_1 = models.IntegerField(null=True, blank=True)
+
+    pz_j_0 = models.IntegerField()
+    pz_j_rel = models.CharField(max_length=3, choices=ESCOLHAS_RELACAO,
+                                verbose_name='Escolha relação j')
+    pz_j_1 = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
         return f"{self.nome} | {self.usina}"

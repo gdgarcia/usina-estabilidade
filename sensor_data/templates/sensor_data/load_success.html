@@ -6,7 +6,15 @@
 {% endblock title %}
 
 {% block content %}
-    <h1>A seleção de dados foi bem sucessidada.</h1>
+    
+    {% if discarded %}
+        <h1>Os dados foram descartados com sucesso.</h1>
+    {% else %}
+        <h1>A seleção de dados foi bem sucessidada.</h1>
+        <p class="lead">Número de dados criados: {{ created }}</p>
+        <p class="lead">Número de dados atualizados: {{ updated }}</p>
+    {% endif %}
+    
     <div class="flex-d justify-content-center">
         <a href="{% url 'sensor_data:load_data' %}">
             <p class="lead">Voltar ao carregamento de dados</p>

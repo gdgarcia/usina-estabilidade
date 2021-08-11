@@ -81,18 +81,20 @@ class FolderSelectionForm(forms.Form):
 
 
 class BundleSaveForm(forms.Form):
-    SALVAR_DADOS = 'sv'
-    SALVAR_E_TRANSFORMAR = 'svt'
+    SALVAR = 'sv'
+    SALVAR_E_ATUALIZAR = 'sva'
     NAO_SALVAR = 'd'
 
     SALVAR_DADOS_OPCOES = [
         (None, 'Selecione a opção...'),
-        (SALVAR_DADOS, 'Salvar os dados'),
-        (SALVAR_E_TRANSFORMAR, 'Salvar dados e converter dados'),
-        (NAO_SALVAR, 'Descartar os dados'),
+        (SALVAR, 'Salvar'),
+        (SALVAR_E_ATUALIZAR, 'Salvar e atualizar'),
+        (NAO_SALVAR, 'Descartar'),
     ]
 
     salvar_dados = forms.ChoiceField(
         choices=SALVAR_DADOS_OPCOES,
         label='Opções para salvar dados',
+        help_text='Salvar: salva dados novos e descarta os repetidos. Salvar '
+        'e atualizar: salva os dados novos e atualiza os repetidos.',
     )
