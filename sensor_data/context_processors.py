@@ -6,7 +6,8 @@ def bundle_data_counter(request):
         already_converted_to_block_data=False
     ).count()
 
-    if counter <= 99:
-        return {'bundle_data_counter': str(counter)}
-    else:
-        return {'bundle_data_counter': '99+'}
+    bundle_data_counter = bool(counter)
+    bundle_data_counter_str = str(counter) if counter <= 999 else '1k+'
+
+    return {'bundle_data_counter': counter,
+            'bundle_data_counter_str': bundle_data_counter_str}
