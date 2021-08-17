@@ -9,5 +9,5 @@ def bundle_data_counter(request):
     bundle_data_counter = bool(counter)
     bundle_data_counter_str = str(counter) if counter <= 999 else '1k+'
 
-    return {'bundle_data_counter': counter,
+    return {'bundle_data_counter': bundle_data_counter,
             'bundle_data_counter_str': bundle_data_counter_str}
