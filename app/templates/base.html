@@ -99,7 +99,7 @@
                         <li class="nav-item">
                             <a class="nav-link  {% if page == 'plots' %}active{% endif %}" href="{% url 'app:plot_data' %}">
                                 <span data-feather="bar-chart-2"></span>
-                                Gráficos FST/FSD {% if page == 'plots' %} <span class="sr-only">(current)</span> {% endif %}
+                                Gráficos {% if page == 'plots' %} <span class="sr-only">(current)</span> {% endif %}
                             </a>
                         </li>
                         <li class="nav-item">
@@ -111,13 +111,13 @@
                         <li class="nav-item">
                             <a class="nav-link {%if page == 'loader' %}active{% endif %}" href="{% url 'sensor_data:load_data' %}">
                                 <span data-feather="upload"></span>
-                                Carregar Dados de Sensores{% if page == 'loader' %} <span class="sr-only">(current)</span> {% endif %}
+                                Carregar Dados{% if page == 'loader' %} <span class="sr-only">(current)</span> {% endif %}
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {%if page == 'converter' %}active{% endif %}" href="{% url 'sensor_data:load_data' %}">
                                 <span data-feather="feather"></span>
-                                Transformar Dados de Sensores{% if page == 'converter' %} <span class="sr-only">(current)</span> {% endif %}
+                                Converter Dados{% if page == 'converter' %} <span class="sr-only">(current)</span> {% endif %}
                             </a>
                         </li>
                         <li class="nav-item">
