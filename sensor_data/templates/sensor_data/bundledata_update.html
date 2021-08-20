@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+{% block title %}
+    Bloco de Dados / Update
+{% endblock title %}
+
+{% block content %}
+    <h1>Edição de Pacote de Dados</h1>
+
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr class="bg-primary-300">
+                    <th>Data</th>
+                    <th>Tipo do Sensor</th>
+                    <th>Número</th>
+                    <th>Valor</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{ formset.management_form }}
+                
+                {% for row in formset %}
+                {{ row.id }}
+                    <tr>
+                        <td>{{ row.data }}</td>
+                        <td>{{ row.type }}</td>
+                        <td>{{ row.number }}</td>
+                        <td>{{ row.value }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-center my-4">
+            <a class="btn btn-danger mx-2" href="{% url 'sensor_data:bundle_delete' form.instance.id %}">Deletar</a>
+            <a class="btn btn-primary mx-2" href="{% url 'sensor_data:bundle_detail' form.instance.id %}">Voltar</a>
+            <button type="submit" class="btn btn-success mx-2">
+                Salvar
+            </button>
+        </div>
+    </form>
+{% endblock content %}

@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Blocos de Dados
+{% endblock title %}
+
+
+{% block content %}
+    <h1>Pacotes de Dados</h1>
+    <table class="table">
+
+        {% if page_obj %}
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Usina</th>
+                <th scope="col">Data</th>
+                <th scope="col">Já Utilizado?</th>
+                <th scope="col">Sensores no pacote</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for bundle in page_obj %}
+            <tr>
+                <td>{{ bundle.usina.nome }}</td>
+                <td>{{ bundle.bundle_data }}</td>
+                <td>
+                    {% if bundle.already_converted_to_block_data %}
+                        Sim
+                    {% else %}
+                        Não
+                    {% endif %}
+                </td>
+                <td>{{ bundle.sensor_quantity }}</td>
+                <td>
+                    <a href="{{ bundle.get_absolute_url }}">
+                        <span data-feather="eye"></span>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+
+        </tbody>
+
+        {% else %}
+        <h1>Não há pacotes de dados cadastrados</h1>
+        <p class="lead">
+            <a href="{% url 'sensor_data:load_data' %}">Clique aqui </a>
+            para carregar novos dados.
+        </p>
+        {% endif %}
+    </table>
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            
+            {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1" aria-label="First">
+                        <span aria-hidden="true">
+                            <span data-feather="chevrons-left"></span>
+                        </span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{page_obj.previous_page_number}}">
+                        <span aria-hidden="true">
+                            <span data-feather="chevron-left"></span>
+                        </span>
+                    </a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" aria-label="First">
+                        <span aria-hidden="true">
+                            <span data-feather="chevrons-left"></span>
+                        </span>
+                    </a>
+                </li>
+                <li class="page-item disabled">
+                    <a class="page-link" href="#">
+                        <span aria-hidden="true">
+                            <span data-feather="chevron-left"></span>
+                        </span>
+                    </a>
+                </li>
+            {% endif %}
+
+            <li class="page-item active"  aria-current="page">
+                <a class="page-link">
+                    Pág. {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+                </a>
+            </li>
+
+            {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="First">
+                        <span aria-hidden="true">
+                            <span data-feather="chevron-right"></span>
+                        </span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">
+                        <span aria-hidden="true">
+                            <span data-feather="chevrons-right"></span>
+                        </span>
+                    </a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" aria-label="First">
+                        <span aria-hidden="true">
+                            <span data-feather="chevron-right"></span>
+                        </span>
+                    </a>
+                </li>
+                <li class="page-item disabled">
+                    <a class="page-link" href="#">
+                        <span aria-hidden="true">
+                            <span data-feather="chevrons-right"></span>
+                        </span>
+                    </a>
+                </li>
+            {% endif %}
+
+        </ul>
+    </nav>
+{% endblock content %}

@@ -1,6 +1,7 @@
 from django import forms
 
 from app.models import Usina
+from .models import BundleData, SensorData
 
 
 class FolderSelectionForm(forms.Form):
@@ -98,3 +99,28 @@ class BundleSaveForm(forms.Form):
         help_text='Salvar: salva dados novos e descarta os repetidos. Salvar '
         'e atualizar: salva os dados novos e atualiza os repetidos.',
     )
+
+
+class BundleDataUpdateForm(forms.ModelForm):
+    class Meta:
+        model = BundleData
+        fields = ['usina', 'bundle_data']
+        labels = {'usina': 'Usina', 'bundle_data': 'Data'}
+    
+    def clean(self):
+        fields = self.cleaned_data
+
+
+BundleDataUpdateFormset = forms.inlineformset_factory(
+    BundleData,
+    SensorData,
+    form=BundleDataUpdateForm,
+    extra=0,
+    can_delete=True,
+    max_num=30,
+    validate_max=30,
+    fields = ('data', 'type', 'number', 'value'),
+    labels = {'data': 'Data', 'type': 'Tipo do Sensor',
+              'number': 'Número', 'value': 'Valor'}
+)
+

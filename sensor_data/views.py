@@ -2,12 +2,20 @@ import os
 import pickle
 
 from tempfile import NamedTemporaryFile
-from django.shortcuts import render, redirect
-from django.views.generic import TemplateView
-from django.views.generic.edit import FormView
+from django.shortcuts import render, redirect, HttpResponse
+from django.views.generic import ListView, DetailView
+from django.views.generic.edit import (
+    FormView,
+    UpdateView,
+    DeleteView,
+)
 from django.urls import reverse, reverse_lazy
 
-from .forms import FolderSelectionForm, BundleSaveForm
+from .models import BundleData
+from .forms import (
+    FolderSelectionForm, BundleSaveForm,
+    BundleDataUpdateForm, BundleDataUpdateFormset
+)
 from .read_data import read_data_from_folder
 from .treat_data import aggregate_data
 from .bundles import save_bundle
@@ -108,3 +116,74 @@ def data_uploaded_view(request):
     return render(request, 'sensor_data/data_presentation.html',
                   {'usina': usina, 'dados': dados, 'campos': campos,
                    'save_form': save_form})
+
+
+class BundleDataListView(ListView):
+    model = BundleData
+    template_name = 'sensor_data/bundledata_list.html'
+    paginate_by=50
+
+
+class BundleDataDetailView(DetailView):
+    model = BundleData
+    template_name = 'sensor_data/bundledata_detail.html'
+    context_object_name = 'bundle_data'
+
+
+class BundleDataDeleteView(DeleteView):
+    model = BundleData
+    context_object_name = 'bundle_data'
+    template_name = 'sensor_data/bundledata_delete.html'
+    success_url = reverse_lazy('sensor_data:bundle_list')
+
+
+
+class BundleDataUpdateView(UpdateView):
+    template_name = 'sensor_data/bundledata_update.html'
+    form_class = BundleDataUpdateForm
+    model = BundleData
+    success_message = 'Pacote de dados atualizado com sucesso'
+
+    def get_success_url(self):
+        return reverse_lazy('sensor_data:bundle_update',
+                            kwargs={'pk': self.object.id})
+
+    def get_context_data(self, **kwargs):
+        context = super(BundleDataUpdateView, self).get_context_data(**kwargs)
+        if self.request.POST:
+            context['form'] = BundleDataUpdateForm(self.request.POST,
+                                                   self.object)
+            context['formset'] = BundleDataUpdateFormset(
+                self.request.POST, isinstance=self.object
+            )
+        else:
+            context['form'] = BundleDataUpdateForm(instance=self.object)
+            context['formset'] = BundleDataUpdateFormset(instance=self.object)
+
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        formset = BundleDataUpdateFormset(self.request.POST,
+                                          instance=self.object)
+        if form.is_valid() and formset.is_valid():
+            return self.form_valid(form, formset)
+        else:
+            return self.form_invalid(form, formset)
+
+    def form_valid(self, form, formset):
+        self.object = form.save()
+        formset.instance = self.object
+        formset.save()
+        return redirect(self.get_success_url())
+    
+    def form_invalid(self, form, formset):
+        return self.render_to_response(self.get_context_data(
+            form=form, formset=formset
+        ))
+
+
+def bundle_converter_view(request):
+    return HttpResponse("Sensor Data Converter. Só um teste.")

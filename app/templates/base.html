@@ -81,7 +81,7 @@
                         <li class="nav-item">
                             <a class="nav-link {% if page == 'usinas' %}active{% endif %}" href="{% url 'app:usina_list' %}">
                                 <span data-feather="droplet"></span>
-                                Barragens {% if page == 'usinas' %} <span class="sr-only">(current)</span> {% endif %}
+                                Usinas {% if page == 'usinas' %} <span class="sr-only">(current)</span> {% endif %}
                             </a>
                         </li>
                         <li class="nav-item">
@@ -103,7 +103,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {%if page == 'sensordata' %}active{% endif %}" href="{% url 'sensor_data:load_data' %}">
+                            <a class="nav-link {%if page == 'sensordata' %}active{% endif %}" href="{% url 'sensor_data:bundle_list' %}">
                                 <span data-feather="file-text"></span>
                                 Dados de Sensores{% if page == 'sensordata' %} <span class="sr-only">(current)</span> {% endif %}
                             </a>
@@ -115,7 +115,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {%if page == 'converter' %}active{% endif %}" href="{% url 'sensor_data:load_data' %}">
+                            <a class="nav-link {%if page == 'converter' %}active{% endif %}" href="{% url 'sensor_data:bundle_converter' %}">
                                 <span data-feather="feather"></span>
                                 Converter Dados
                                 {% if page == 'converter' %}
