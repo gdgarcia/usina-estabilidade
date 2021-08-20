@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+{% block title %}
+    Pacote de Dados / Converter
+{% endblock title %}
+
+
+{% block content %}
+    <h1>Converter os pacotes de Dados</h1>
+
+    {% if any_bundle_to_convert %}
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ converter_form|crispy }}
+            <div class="d-flex justify-content-center">
+                <input class="btn btn-primary my-3" type="submit" value="Converter">
+            </div>
+        </form>
+    {% else %}
+        <p class="lead">Não existem pacotes de dados a serem convertdiso</p>
+        <p class="lead">
+            <a href="{% url 'sensor_data:load_data' %}">Clique aqui </a>
+            para carregar novos dados de sensores.
+        </p>
+    {% endif %}
+
+{% endblock content %}

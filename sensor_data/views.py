@@ -3,7 +3,7 @@ import pickle
 
 from tempfile import NamedTemporaryFile
 from django.shortcuts import render, redirect, HttpResponse
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, TemplateView
 from django.views.generic.edit import (
     FormView,
     UpdateView,
@@ -14,7 +14,8 @@ from django.urls import reverse, reverse_lazy
 from .models import BundleData
 from .forms import (
     FolderSelectionForm, BundleSaveForm,
-    BundleDataUpdateForm, BundleDataUpdateFormset
+    BundleDataUpdateForm, BundleDataUpdateFormset,
+    BundleConvertForm
 )
 from .read_data import read_data_from_folder
 from .treat_data import aggregate_data
@@ -185,5 +186,31 @@ class BundleDataUpdateView(UpdateView):
         ))
 
 
-def bundle_converter_view(request):
-    return HttpResponse("Sensor Data Converter. Só um teste.")
+class BundleDataConverterView(TemplateView):
+    template_name = 'sensor_data/bundledata_converter.html'
+
+    def get(self, request):
+        form = BundleConvertForm()
+        any_bundle_to_convert = bool(
+            BundleData.objects.filter(already_converted_to_block_data=False).first()
+        )
+        return render(request, self.template_name,
+                      {'converter_form': form,
+                       'any_bundle_to_convert': any_bundle_to_convert})
+    
+    def post(self, request):
+
+        form = BundleConvertForm(request.POST)
+        any_bundle_to_convert = bool(BundleData.objects.filter(
+                already_converted_to_block_data=False).first())
+        if form.is_valid():
+            cd = form.cleaned_data
+            usina = cd['usina']
+            dt_init = cd['date_init']
+            dt_end = cd['date_end']
+            delete = cd['delete_bundles']
+            return redirect(reverse('app:home'))
+        return render(request, self.template_name,
+                      {'converter_form': form,
+                       'any_bundle_to_convert': any_bundle_to_convert})
+

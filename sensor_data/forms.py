@@ -124,3 +124,28 @@ BundleDataUpdateFormset = forms.inlineformset_factory(
               'number': 'Número', 'value': 'Valor'}
 )
 
+
+class BundleConvertForm(forms.Form):
+    usina = forms.ModelChoiceField(
+        queryset=Usina.objects.all(),
+        label='Usina',
+        help_text='Usina cujos pacotes de sensores devem ser convertidos',
+        empty_label='Selecione a usina...',
+    )
+    date_init = forms.DateField(
+        label='Data Inicial',
+        required=False,
+        widget= forms.DateInput(attrs={'type': 'date'})
+    )
+    date_end = forms.DateField(
+        label='Data Final',
+        required=False,
+        widget= forms.DateInput(attrs={'type': 'date'})
+    )
+    delete_bundles = forms.BooleanField(
+        label='Deletar os pacotes?',
+        help_text='Deleta os dados de sensores após serem convertidos',
+        required=True,
+        initial=True
+    )
+

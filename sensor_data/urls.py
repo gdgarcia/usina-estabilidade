@@ -6,21 +6,25 @@ from .views import (
     BundleDataDetailView,
     BundleDataDeleteView,
     BundleDataUpdateView,
+    BundleDataConverterView,
     data_uploaded_view,
-    bundle_converter_view,
 ) 
 
 app_name = 'sensor_data'
 
 urlpatterns = [
-    path('load-data/', ChooseDataView.as_view(), name='load_data'),
-    path('loaded-data/', data_uploaded_view, name='loaded_data'),
-    path('bundle-list/', BundleDataListView.as_view(), name='bundle_list'),
+    path('load-data/', ChooseDataView.as_view(),
+         name='load_data'),
+    path('loaded-data/', data_uploaded_view,
+         name='loaded_data'),
+    path('bundle-list/', BundleDataListView.as_view(),
+         name='bundle_list'),
     path('bundle-detail/<int:pk>/', BundleDataDetailView.as_view(),
          name='bundle_detail'),
     path('bundle-delete/<int:pk>/', BundleDataDeleteView.as_view(),
          name='bundle_delete'),
     path('bundle-update/<int:pk>/', BundleDataUpdateView.as_view(),
          name='bundle_update'),
-    path('bundle-converter/', bundle_converter_view, name='bundle_converter'),
+    path('bundle-converter/', BundleDataConverterView.as_view(),
+         name='bundle_converter'),
 ]
