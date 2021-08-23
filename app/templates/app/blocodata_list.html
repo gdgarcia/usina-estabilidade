@@ -33,7 +33,7 @@
                 {% for bloco_data in page_obj %}
                 <tr>
                     <td>{{ bloco_data.bloco }}</td>
-                    <td>{{ bloco_data.data }}</td>
+                    <td>{{ bloco_data.data|date:"d/m/y H:i" }}</td>
                     <td>{{ bloco_data.nr|floatformat:2 }}</td>
                     <td>{{ bloco_data.pzm|floatformat:2 }}</td>
                     <td>{{ bloco_data.pzi|floatformat:2 }}</td>
