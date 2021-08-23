@@ -2,29 +2,141 @@
 {% load static %}
 
 {% block title %}
-    Dados
+    Dados de Bloco
 {% endblock title %}
 
+
+<!-- <div class="row my-5">
+    <div class="col text-center">
+        <a href="{% url 'app:blocodata_create' %}" class="btn btn-secondary btn-lg">+ Inserir dado</a>
+    </div>
+</div> -->
+
+
 {% block content %}
-    <div class="card-deck">
-        {% for blocodata in all_blocodata_list %}
-            <div class="card text-center" style="width: 18rem;">
-                <img class="card-img-top img-thumbnail"src="{% static 'app/img/dam-default.png' %}" alt="Bloco {{bloco.nome}}">
-                <div class="card-body justify-content-center">
-                    <h5 class="card-title">{{ blocodata.nome }}</h5>
-                    <!-- <p class="card-text">
-                        {{ usina.descricao }}
-                    </p> -->
-                    <a href="{% url 'app:blocodata_delete' blocodata.id %}" class="btn btn-danger mt-auto">Deletar</a>
-                    <a href="{% url 'app:blocodata_detail' blocodata.id %}" class="btn btn-secondary mt-auto">Editar</a>
-                    <a href="{% url 'app:blocodata_duplicate' blocodata.id%}" class="btn btn-secondary mt-auto">Duplicar</a>
-                </div>
-            </div>
-        {% endfor %}
-    </div>
-    <div class="row my-5">
-        <div class="col text-center">
-            <a href="{% url 'app:blocodata_create' %}" class="btn btn-secondary btn-lg">+ Inserir dado</a>
-        </div>
-    </div>
+    <h1>Dados de Blocos</h1>
+    {% if page_obj %}
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Usina</th>
+                    <th scope="col">Data</th>
+                    <th scope="col">Nível</th>
+                    <th scope="col">Piezo M</th>
+                    <th scope="col">Piezo I</th>
+                    <th scope="col">Piezo J</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for bloco_data in page_obj %}
+                <tr>
+                    <td>{{ bloco_data.bloco }}</td>
+                    <td>{{ bloco_data.data }}</td>
+                    <td>{{ bloco_data.nr|floatformat:2 }}</td>
+                    <td>{{ bloco_data.pzm|floatformat:2 }}</td>
+                    <td>{{ bloco_data.pzi|floatformat:2 }}</td>
+                    <td>{{ bloco_data.pzj|floatformat:2 }}</td>
+                    <td>
+                        <a href="{% url 'app:blocodata_detail' bloco_data.id %}">
+                            <span data-feather="eye"></span>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{% url 'app:blocodata_duplicate' bloco_data.id %}">
+                            <span data-feather="copy"></span>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+    
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page=1" aria-label="First">
+                    <span aria-hidden="true">
+                        <span data-feather="chevrons-left"></span>
+                    </span>
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{page_obj.previous_page_number}}">
+                    <span aria-hidden="true">
+                        <span data-feather="chevron-left"></span>
+                    </span>
+                </a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" href="#" aria-label="First">
+                    <span aria-hidden="true">
+                        <span data-feather="chevrons-left"></span>
+                    </span>
+                </a>
+            </li>
+            <li class="page-item disabled">
+                <a class="page-link" href="#">
+                    <span aria-hidden="true">
+                        <span data-feather="chevron-left"></span>
+                    </span>
+                </a>
+            </li>
+            {% endif %}
+    
+            <li class="page-item active" aria-current="page">
+                <a class="page-link">
+                    Pág. {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+                </a>
+            </li>
+    
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="First">
+                    <span aria-hidden="true">
+                        <span data-feather="chevron-right"></span>
+                    </span>
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">
+                    <span aria-hidden="true">
+                        <span data-feather="chevrons-right"></span>
+                    </span>
+                </a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" href="#" aria-label="First">
+                    <span aria-hidden="true">
+                        <span data-feather="chevron-right"></span>
+                    </span>
+                </a>
+            </li>
+            <li class="page-item disabled">
+                <a class="page-link" href="#">
+                    <span aria-hidden="true">
+                        <span data-feather="chevrons-right"></span>
+                    </span>
+                </a>
+            </li>
+            {% endif %}
+    
+        </ul>
+    </nav>
+
+
+
+    {% else %}
+        <h1>Não há blocos de dados cadastrados</h1>
+        <p class="lead">
+            <a href="{% url 'app:blocodata_create' %}">Clique aqui </a>
+            para criar novo dado de bloco.
+        </p>
+    {% endif %}
+
 {% endblock content %}
