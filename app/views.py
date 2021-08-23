@@ -42,7 +42,7 @@ class UsinaListView(ListView):
 class UsinaDetailView(UpdateView):
     model = Usina
     template_name = 'app/usina_detail.html'
-    fields = ['nome', 'descricao']
+    fields = ['nome', 'min_fst', 'min_fsd', 'descricao']
 
     def get_context_data(self, **kwargs):
         context =  super().get_context_data(**kwargs)
@@ -53,7 +53,7 @@ class UsinaDetailView(UpdateView):
 class UsinaCreateView(CreateView):
     model = Usina
     template_name = 'app/usina_detail.html'
-    fields = ['nome', 'descricao']
+    fields = ['nome', 'min_fst', 'min_fsd', 'descricao']
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -353,8 +353,9 @@ class PlotBlocoDataView(TemplateView):
                 ).order_by('data')
                 dados = [getattr(b, attr) for b in blocodata_plot_list]
                 datas = [b.data for b in blocodata_plot_list]
-                # NOTE: valor hard coded. Retornar o valor segundo o cadastro
-                support_line_min = bloco.usina.min_fst
+                support_line_min = getattr(
+                    bloco.usina, '_'.join(('min', attr))
+                )
                 bokeh_script, bokeh_div = plot_figure(
                     datas, dados, "data", f"{attr.upper()}",
                     f"{attr.upper()} - {bloco}",
