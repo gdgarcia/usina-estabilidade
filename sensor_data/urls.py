@@ -8,7 +8,7 @@ from .views import (
     BundleDataUpdateView,
     BundleDataConverterView,
     data_uploaded_view,
-) 
+)
 
 app_name = 'sensor_data'
 

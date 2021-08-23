@@ -354,7 +354,7 @@ class PlotBlocoDataView(TemplateView):
                 dados = [getattr(b, attr) for b in blocodata_plot_list]
                 datas = [b.data for b in blocodata_plot_list]
                 # NOTE: valor hard coded. Retornar o valor segundo o cadastro
-                support_line_min = 1.
+                support_line_min = bloco.usina.min_fst
                 bokeh_script, bokeh_div = plot_figure(
                     datas, dados, "data", f"{attr.upper()}",
                     f"{attr.upper()} - {bloco}",

@@ -2,7 +2,7 @@ import os
 import pickle
 
 from tempfile import NamedTemporaryFile
-from django.shortcuts import render, redirect, HttpResponse
+from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, TemplateView
 from django.views.generic.edit import (
     FormView,
@@ -20,6 +20,7 @@ from .forms import (
 from .read_data import read_data_from_folder
 from .treat_data import aggregate_data
 from .bundles import save_bundle
+from .convert_data import convert_bundle_to_block
 
 
 class ChooseDataView(FormView):
@@ -209,7 +210,8 @@ class BundleDataConverterView(TemplateView):
             dt_init = cd['date_init']
             dt_end = cd['date_end']
             delete = cd['delete_bundles']
-            return redirect(reverse('app:home'))
+            convert_bundle_to_block(usina, dt_init, dt_end, delete)
+            return redirect(reverse('sensor_data:bundle_converter'))
         return render(request, self.template_name,
                       {'converter_form': form,
                        'any_bundle_to_convert': any_bundle_to_convert})
