@@ -79,6 +79,9 @@ class Bloco(models.Model):
     
     def get_absolute_url(self):
         return reverse('app:bloco_detail', kwargs={'pk': self.id})
+    
+    class Meta:
+        ordering = ('usina', 'nome')
 
 
 class NrVolCoeff(models.Model):
@@ -148,7 +151,7 @@ class BlocoData(models.Model):
     class Meta:
         verbose_name = 'dados de bloco'
         verbose_name_plural = 'dados de blocos'
-        ordering = ['data']
+        ordering = ('bloco', 'data')
     
     @property
     def npr(self):
