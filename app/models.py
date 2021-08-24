@@ -31,13 +31,13 @@ class Bloco(models.Model):
         default=False
     )
     volume_bloco = models.FloatField(
-        verbose_name='Volume [m3]'
+        verbose_name='Volume Bloco [m3]'
     )
     xcg_bloco = models.FloatField(
-        verbose_name='Xcg [m]'
+        verbose_name='Xcg Bloco [m]'
     )
     largura = models.FloatField(
-        verbose_name='Volume [m3]'
+        verbose_name='Largura [m3]'
     )
     comprimento = models.FloatField(
         verbose_name='Comprimento [m]'
@@ -77,22 +77,22 @@ class Bloco(models.Model):
         verbose_name='Distacia Xj [m]'
     )
     gamma_concreto = models.FloatField(
-        verbose_name='Gamma do concreto [KN/m2]'
+        verbose_name='Gamma do concreto [kN/m3]'
     )
     gamma_agua = models.FloatField(
-        verbose_name='Gamma da água [KN/m2]'
+        verbose_name='Gamma da água [kN/m3]'
     )
     gamma_enchimento = models.FloatField(
-        verbose_name='Gamma do enchimento [KN/m2]'
+        verbose_name='Gamma do enchimento [kN/m3]'
     )
     gamma_sedimento = models.FloatField(
-        verbose_name='Gamma do sedimento [KN/m2]'
+        verbose_name='Gamma do sedimento [kN/m3]'
     )
     phi = models.FloatField(
-        verbose_name='Phi'
+        verbose_name='Phi [rad]'
     )
     c = models.FloatField(
-        verbose_name='c'
+        verbose_name='c [kN]'
     )
     gamma_phi = models.FloatField(
         verbose_name='Gamma-Phi'
