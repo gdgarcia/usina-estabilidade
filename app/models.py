@@ -26,30 +26,79 @@ class Bloco(models.Model):
         on_delete=models.CASCADE,
         related_name='blocos',
     )
-    volume_bloco = models.FloatField()
-    xcg_bloco = models.FloatField()
-    largura = models.FloatField()
-    comprimento = models.FloatField()
-    area = models.FloatField()
-    cota_base_montante = models.FloatField()
-    cota_base_jusante = models.FloatField()
-    cota_ogiva = models.FloatField()
-    cota_sedimento = models.FloatField()
-    cota_terreno = models.FloatField()
-    v_enchimento = models.FloatField()
-    xcg_enchimento = models.FloatField()
-    dist_xm = models.FloatField()
-    dist_xi = models.FloatField()
-    dist_xj = models.FloatField()
-    gamma_concreto = models.FloatField()
-    gamma_agua = models.FloatField()
-    gamma_enchimento = models.FloatField()
-    gamma_sedimento = models.FloatField()
-    phi = models.FloatField()
-    c = models.FloatField()
-    gamma_phi = models.FloatField()
-    gamma_c = models.FloatField()
-    angulo_sedimento = models.FloatField()
+    volume_bloco = models.FloatField(
+        verbose_name='Volume [m3]'
+    )
+    xcg_bloco = models.FloatField(
+        verbose_name='Xcg [m]'
+    )
+    largura = models.FloatField(
+        verbose_name='Volume [m3]'
+    )
+    comprimento = models.FloatField(
+        verbose_name='Comprimento [m]'
+    )
+    area = models.FloatField(
+        verbose_name='Area [m2]'
+    )
+    cota_base_montante = models.FloatField(
+        verbose_name='Cota da base de montante [m]'
+    
+    )
+    cota_base_jusante = models.FloatField(
+        verbose_name='Cota da base jusante [m]'
+    )
+    cota_ogiva = models.FloatField(
+        verbose_name='Cota da ogiva [m]'
+    )
+    cota_sedimento = models.FloatField(
+        verbose_name='Cota do sedimento [m]'
+    )
+    cota_terreno = models.FloatField(
+        verbose_name='Cota do sedimento [m]'
+    )
+    v_enchimento = models.FloatField(
+        verbose_name='Volume do enchimento [m3]'
+    )
+    xcg_enchimento = models.FloatField(
+        verbose_name='Xcg do enchimento [m]'
+    )
+    dist_xm = models.FloatField(
+        verbose_name='Distacia Xm [m]'
+    )
+    dist_xi = models.FloatField(
+        verbose_name='Distacia Xi [m]'
+    )
+    dist_xj = models.FloatField(
+        verbose_name='Distacia Xj [m]'
+    )
+    gamma_concreto = models.FloatField(
+        verbose_name='Gamma do concreto [KN/m2]'
+    )
+    gamma_agua = models.FloatField(
+        verbose_name='Gamma da água [KN/m2]'
+    )
+    gamma_enchimento = models.FloatField(
+        verbose_name='Gamma do enchimento [KN/m2]'
+    )
+    gamma_sedimento = models.FloatField(
+        verbose_name='Gamma do sedimento [KN/m2]'
+    )
+    phi = models.FloatField(
+        verbose_name='Phi'
+    )
+    c = models.FloatField(
+        verbose_name='c'
+    )
+    gamma_phi = models.FloatField(
+        verbose_name='Gamma-Phi'
+    )
+    gamma_c = models.FloatField(
+        verbose_name='Gamma-C'
+    )
+    angulo_sedimento = models.FloatField(
+        verbose_name='Ângulo Sedimento [rad]'
+    )
 
     # campos para selecao dos piezometros
 
@@ -61,17 +110,17 @@ class Bloco(models.Model):
     
     pz_m_0 = models.IntegerField()
     pz_m_rel = models.CharField(max_length=3, choices=ESCOLHAS_RELACAO,
-                                verbose_name='Escolha relação m')
+                                verbose_name='Escolha relação - Piezômetros m')
     pz_m_1 = models.IntegerField(null=True, blank=True)
 
     pz_i_0 = models.IntegerField()
     pz_i_rel = models.CharField(max_length=3, choices=ESCOLHAS_RELACAO,
-                                verbose_name='Escolha relação i')
+                                verbose_name='Escolha relação - Piezômetros i')
     pz_i_1 = models.IntegerField(null=True, blank=True)
 
     pz_j_0 = models.IntegerField()
     pz_j_rel = models.CharField(max_length=3, choices=ESCOLHAS_RELACAO,
-                                verbose_name='Escolha relação j')
+                                verbose_name='Escolha relação - Piezômetros j')
     pz_j_1 = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
@@ -91,11 +140,11 @@ class NrVolCoeff(models.Model):
         related_name='nr_vol_coeff',
         primary_key=True
     )
-    vol_c0 = models.FloatField(verbose_name='c0',
+    vol_c0 = models.FloatField(verbose_name='volume - c0',
                                help_text='coeficiente ordem 0: nr^0')
-    vol_c1 = models.FloatField(verbose_name='c1',
+    vol_c1 = models.FloatField(verbose_name='volume - c1',
                                help_text='coeficiente ordem 1: nr^1')
-    vol_c2 = models.FloatField(verbose_name='c2',
+    vol_c2 = models.FloatField(verbose_name='volume - c2',
                                help_text='coeficiente ordem 2: nr^2')
 
     def __str__(self):
@@ -113,13 +162,13 @@ class NrXcgCoeff(models.Model):
         related_name='nr_xcg_coeff',
         primary_key=True
     )
-    xcg_c0 = models.FloatField(verbose_name='c0',
+    xcg_c0 = models.FloatField(verbose_name='peso da água - c0',
                                help_text='coeficiente ordem 0: nr^0')
-    xcg_c1 = models.FloatField(verbose_name='c1',
+    xcg_c1 = models.FloatField(verbose_name='peso da água - c1',
                                help_text='coeficiente ordem 1: nr^1')
-    xcg_c2 = models.FloatField(verbose_name='c2',
+    xcg_c2 = models.FloatField(verbose_name='peso da água - c2',
                                help_text='coeficiente ordem 2: nr^2')
-    xcg_c3 = models.FloatField(verbose_name='c0',
+    xcg_c3 = models.FloatField(verbose_name='peso da água - c3',
                                help_text='coeficiente ordem 3: nr^3')
 
     def __str__(self):
