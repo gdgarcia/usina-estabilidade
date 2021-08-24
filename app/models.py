@@ -20,15 +20,24 @@ class Usina(models.Model):
 
 
 class Bloco(models.Model):
+
+    TIPO_BLOCO_CHOICES = [
+        (None, 'Escolha o tipo do bloco'),
+        (1, 'Tipo Blocos 2-4'),
+        (2, 'Tipo Blocos 6-15'),
+        (3, 'Tipo Bloco 5'),
+    ]
+
     nome = models.CharField(max_length=50)
     usina = models.ForeignKey(
         Usina,
         on_delete=models.CASCADE,
         related_name='blocos',
     )
-    bloco_especial = models.BooleanField(
-        verbose_name='Usina com dois valores de empuxo?',
-        default=False
+    tipo = models.IntegerField(
+        choices=TIPO_BLOCO_CHOICES,
+        default=1,
+        verbose_name='Tipo do Bloco'
     )
     volume_bloco = models.FloatField(
         verbose_name='Volume Bloco [m3]'
@@ -144,11 +153,11 @@ class NrVolCoeff(models.Model):
         related_name='nr_vol_coeff',
         primary_key=True
     )
-    vol_c0 = models.FloatField(verbose_name='volume - c0',
+    vol_c0 = models.FloatField(verbose_name='Volume água c0',
                                help_text='coeficiente ordem 0: nr^0')
-    vol_c1 = models.FloatField(verbose_name='volume - c1',
+    vol_c1 = models.FloatField(verbose_name='Volume água c1',
                                help_text='coeficiente ordem 1: nr^1')
-    vol_c2 = models.FloatField(verbose_name='volume - c2',
+    vol_c2 = models.FloatField(verbose_name='Volume água c2',
                                help_text='coeficiente ordem 2: nr^2')
 
     def __str__(self):
@@ -166,13 +175,13 @@ class NrXcgCoeff(models.Model):
         related_name='nr_xcg_coeff',
         primary_key=True
     )
-    xcg_c0 = models.FloatField(verbose_name='peso da água - c0',
+    xcg_c0 = models.FloatField(verbose_name='Xcg água c0',
                                help_text='coeficiente ordem 0: nr^0')
-    xcg_c1 = models.FloatField(verbose_name='peso da água - c1',
+    xcg_c1 = models.FloatField(verbose_name='Xcg água c1',
                                help_text='coeficiente ordem 1: nr^1')
-    xcg_c2 = models.FloatField(verbose_name='peso da água - c2',
+    xcg_c2 = models.FloatField(verbose_name='Xcg água c2',
                                help_text='coeficiente ordem 2: nr^2')
-    xcg_c3 = models.FloatField(verbose_name='peso da água - c3',
+    xcg_c3 = models.FloatField(verbose_name='Xcg água c3',
                                help_text='coeficiente ordem 3: nr^3')
 
     def __str__(self):
@@ -357,13 +366,14 @@ class BlocoData(models.Model):
     def v_empuxo_agua1(self):
         return stab_eqs.v_empuxo_agua1(
             self.nr, self.pzm, c1=224.95, c2=1.6548, c3=28.125, c4=4.85,
+            tipo_bloco=self.bloco.tipo, largura=self.bloco.largura
         )
 
     @property
     def v_empuxo_agua2(self):
         return stab_eqs.v_empuxo_agua2(
             self.nr, self.bloco.cota_base_montante, c1=18.35,
-            bloco_especial=self.bloco.bloco_especial
+            bloco_especial=self.bloco.tipo, largura=self.bloco.largura
         )
 
     @property
@@ -378,7 +388,7 @@ class BlocoData(models.Model):
         return stab_eqs.xcg_empuxo_agua2(
             self.nr, self.bloco.cota_base_montante,
             self.bloco.cota_base_jusante,
-            bloco_especial=self.bloco.bloco_especial
+            bloco_especial=self.bloco.tipo
         )
 
     @property
