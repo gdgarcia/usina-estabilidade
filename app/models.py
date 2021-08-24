@@ -26,6 +26,10 @@ class Bloco(models.Model):
         on_delete=models.CASCADE,
         related_name='blocos',
     )
+    bloco_especial = models.BooleanField(
+        verbose_name='Usina com dois valores de empuxo?',
+        default=False
+    )
     volume_bloco = models.FloatField(
         verbose_name='Volume [m3]'
     )
@@ -352,13 +356,14 @@ class BlocoData(models.Model):
     @property
     def v_empuxo_agua1(self):
         return stab_eqs.v_empuxo_agua1(
-            self.nr, self.pzm, c1=224.95, c2=1.6548, c3=28.125, c4=4.85
+            self.nr, self.pzm, c1=224.95, c2=1.6548, c3=28.125, c4=4.85,
         )
 
     @property
     def v_empuxo_agua2(self):
         return stab_eqs.v_empuxo_agua2(
-            self.nr, self.bloco.cota_base_montante, c1=18.35
+            self.nr, self.bloco.cota_base_montante, c1=18.35,
+            bloco_especial=self.bloco.bloco_especial
         )
 
     @property
@@ -372,7 +377,8 @@ class BlocoData(models.Model):
     def xcg_empuxo_agua2(self):
         return stab_eqs.xcg_empuxo_agua2(
             self.nr, self.bloco.cota_base_montante,
-            self.bloco.cota_base_jusante
+            self.bloco.cota_base_jusante,
+            bloco_especial=self.bloco.bloco_especial
         )
 
     @property

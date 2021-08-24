@@ -130,10 +130,13 @@ def v_empuxo_agua1(nr, pzm, c1=224.95, c2=1.6548, c3=28.125, c4=4.85):
     )
 
 
-def v_empuxo_agua2(nr, cota_base_montante, c1=18.35):
-    return (
-        0.5 * c1 * (nr - cota_base_montante)**2
-    )
+def v_empuxo_agua2(nr, cota_base_montante, c1=18.35, bloco_especial=False):
+    if bloco_especial:
+        return (
+            0.5 * c1 * (nr - cota_base_montante)**2
+        )
+    else:
+        return 0.
 
 
 def xcg_empuxo_agua1(nr, pzm, c1=224.95, c2=28.125, c3=0.65903,
@@ -154,11 +157,15 @@ def xcg_empuxo_agua1(nr, pzm, c1=224.95, c2=28.125, c3=0.65903,
     return sbt1 / sbt2
 
 
-def xcg_empuxo_agua2(nr, cota_base_montante, cota_base_jusante):
-    return (
-        (nr - cota_base_montante) / 3 
-        + (cota_base_montante - cota_base_jusante)
-    )
+def xcg_empuxo_agua2(nr, cota_base_montante, cota_base_jusante,
+                     bloco_especial=False):
+    if bloco_especial:
+        return (
+            (nr - cota_base_montante) / 3 
+            + (cota_base_montante - cota_base_jusante)
+        )
+    else:
+        return 0.
 
 
 def v_assoreamento(largura, cota_ogiva, cota_terreno):
