@@ -19,6 +19,8 @@ def convert_bundle_to_block(usina, initial_date=None, end_date=None,
         # vamos iterar sobre bundle_qs. 
         # quando cada iteracao estiver prontas, podemos deletar o bundle,
         # se assim for escolhido
+        bd_to_be_created = []
+        bd_to_be_updated = []
         for bloco in bloco_qs:
             data = bundle.bundle_data
             nr = _get_nr_value(bundle, bloco)
@@ -26,20 +28,30 @@ def convert_bundle_to_block(usina, initial_date=None, end_date=None,
             pzi = _get_pzi_value(bundle, bloco)
             pzj = _get_pzj_value(bundle, bloco)
 
-            BlocoData.objects.update_or_create(
-                data=data,
-                bloco=bloco,
-                nr=nr,
-                pzm=pzm,
-                pzi=pzi,
-                pzj=pzj
-            )
+            if (bd := BlocoData.objects.get(data=data, bloco=bloco)):
+                # o dado ja existe na base de dados.
+                # vamos atualizar
+                bd.nr = nr
+                bd.pzm = pzm
+                bd.pzi = pzi
+                bd.pzj = pzj
+                bd_to_be_updated.append(bd)
+            else:
+                # o dados nao existe. deve ser criado
+                bd_to_be_created.append(
+                    BlocoData(data=data, bloco=bloco, nr=nr,
+                              pzm=pzm, pzi=pzi, pzj=pzj)
+                )
         
         if delete:
             bundle.delete()
         else:
             bundle.already_converted_to_block_data = True
-            bundle.save()        
+            bundle.save()
+
+    BlocoData.objects.bulk_create(bd_to_be_created)
+    BlocoData.objects.bulk_update(bd_to_be_updated,
+                                  fields=['nr', 'pzm', 'pzi', 'pzj'])        
 
 
 def _get_bundle_qs(usina, initial_date, end_date):
