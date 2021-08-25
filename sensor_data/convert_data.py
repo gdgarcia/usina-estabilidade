@@ -38,7 +38,8 @@ def convert_bundle_to_block(usina, initial_date=None, end_date=None,
         if delete:
             bundle.delete()
         else:
-            bundle.update(already_converted_to_block_data=True)        
+            bundle.already_converted_to_block_data = True
+            bundle.save()        
 
 
 def _get_bundle_qs(usina, initial_date, end_date):
