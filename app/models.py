@@ -68,7 +68,7 @@ class Bloco(models.Model):
         verbose_name='Cota do sedimento [m]'
     )
     cota_terreno = models.FloatField(
-        verbose_name='Cota do sedimento [m]'
+        verbose_name='Cota do terreno [m]'
     )
     v_enchimento = models.FloatField(
         verbose_name='Volume do enchimento [m3]'

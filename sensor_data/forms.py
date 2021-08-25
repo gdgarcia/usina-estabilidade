@@ -145,7 +145,7 @@ class BundleConvertForm(forms.Form):
     delete_bundles = forms.BooleanField(
         label='Deletar os pacotes?',
         help_text='Deleta os dados de sensores após serem convertidos',
-        required=True,
+        required=False,
         initial=True
     )
 
