@@ -381,7 +381,7 @@ class BlocoData(models.Model):
     def xcg_empuxo_agua1(self):
         return stab_eqs.xcg_empuxo_agua1(
             self.nr, self.pzm, c1=224.95, c2=28.125, c3=0.65903,
-            c4=2.31, c5=2.5, c6=3.75
+            c4=2.31, c5=2.5, c6=3.75, tipo_bloco=self.bloco.tipo
         )
 
     @property

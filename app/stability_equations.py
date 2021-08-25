@@ -153,21 +153,24 @@ def v_empuxo_agua2(nr, cota_base_montante, c1=18.35,
 
 
 def xcg_empuxo_agua1(nr, pzm, c1=224.95, c2=28.125, c3=0.65903,
-                     c4=2.31, c5=2.5, c6=3.75):
-    
-    f1 = nr - c1
-    f2 = c2 - c3 * pzm
-    f3 = c4 * pzm
+                     c4=2.31, c5=2.5, c6=3.75, tipo_bloco=1):
 
-    parc1 = 0.5 * (f1 ** 2)
-    parc2 = f1 / 3.
-    parc3 = f2 * c5
-    parc4 = f3 * c6
+    if tipo_bloco == 1 or tipo_bloco == 3:    
+        f1 = nr - c1
+        f2 = c2 - c3 * pzm
+        f3 = c4 * pzm
 
-    sbt1 = (parc1*parc2 + parc3 + parc4)
-    sbt2 = (parc1 + f2 + f3)
+        parc1 = 0.5 * (f1 ** 2)
+        parc2 = f1 / 3.
+        parc3 = f2 * c5
+        parc4 = f3 * c6
 
-    return sbt1 / sbt2
+        sbt1 = (parc1*parc2 + parc3 + parc4)
+        sbt2 = (parc1 + f2 + f3)
+
+        return sbt1 / sbt2
+    else:
+        return 0.
 
 
 def xcg_empuxo_agua2(nr, cota_base_montante, cota_base_jusante,
