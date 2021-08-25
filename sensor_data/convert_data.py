@@ -28,9 +28,10 @@ def convert_bundle_to_block(usina, initial_date=None, end_date=None,
             pzi = _get_pzi_value(bundle, bloco)
             pzj = _get_pzj_value(bundle, bloco)
 
-            if (bd := BlocoData.objects.get(data=data, bloco=bloco)):
+            if (bd := BlocoData.objects.filter(data=data, bloco=bloco)):
                 # o dado ja existe na base de dados.
                 # vamos atualizar
+                bd = bd.first()
                 bd.nr = nr
                 bd.pzm = pzm
                 bd.pzi = pzi
