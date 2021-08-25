@@ -6,7 +6,7 @@ from . import stability_equations as stab_eqs
 
 
 class Usina(models.Model):
-    nome = models.CharField(max_length=50)
+    nome = models.CharField(max_length=50, unique=True)
     descricao = models.TextField(max_length=100, blank=True, null=True)
     min_fst = models.FloatField(default=1.0)
     min_fsd = models.FloatField(default=1.0)
@@ -144,6 +144,7 @@ class Bloco(models.Model):
     
     class Meta:
         ordering = ('usina', 'nome')
+        unique_together = ['nome', 'usina']
 
 
 class NrVolCoeff(models.Model):
@@ -214,6 +215,7 @@ class BlocoData(models.Model):
         verbose_name = 'dados de bloco'
         verbose_name_plural = 'dados de blocos'
         ordering = ('bloco', 'data')
+        unique_together = ['data', 'bloco']
     
     @property
     def npr(self):
@@ -373,7 +375,7 @@ class BlocoData(models.Model):
     def v_empuxo_agua2(self):
         return stab_eqs.v_empuxo_agua2(
             self.nr, self.bloco.cota_base_montante, c1=18.35,
-            bloco_especial=self.bloco.tipo, largura=self.bloco.largura
+            tipo_bloco=self.bloco.tipo, largura=self.bloco.largura
         )
 
     @property
