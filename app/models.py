@@ -46,7 +46,7 @@ class Bloco(models.Model):
         verbose_name='Xcg Bloco [m]'
     )
     largura = models.FloatField(
-        verbose_name='Largura [m3]'
+        verbose_name='Largura [m]'
     )
     comprimento = models.FloatField(
         verbose_name='Comprimento [m]'
@@ -101,7 +101,7 @@ class Bloco(models.Model):
         verbose_name='Phi [rad]'
     )
     c = models.FloatField(
-        verbose_name='c [kN]'
+        verbose_name='c [kN/m2]'
     )
     gamma_phi = models.FloatField(
         verbose_name='Gamma-Phi'
