@@ -346,11 +346,16 @@ class PlotBlocoDataView(TemplateView):
                 data_final = cd['data_final']
                 attr = cd['tipo']
 
-                blocodata_plot_list = BlocoData.objects.filter(
-                    Q(bloco=bloco) &
-                    Q(data__gte=data_initial) &
-                    Q(data__lte=data_final)
-                ).order_by('data')
+                blocodata_plot_list = BlocoData.objects.filter(bloco=bloco)
+                if data_initial:
+                    blocodata_plot_list = blocodata_plot_list.filter(
+                        data__gte=data_initial
+                    )
+                if data_final:
+                    blocodata_plot_list = blocodata_plot_list.filter(
+                        data__lte=data_final
+                    )
+                blocodata_plot_list = blocodata_plot_list.order_by('data')
                 dados = [getattr(b, attr) for b in blocodata_plot_list]
                 datas = [b.data for b in blocodata_plot_list]
                 support_line_min = getattr(

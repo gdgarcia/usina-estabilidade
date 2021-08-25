@@ -30,10 +30,12 @@ class PlotSelectionForm(forms.Form):
     )
 
     data_initial = forms.DateTimeField(
+        required=False,
         input_formats=['%d/%m/%Y %H:%M']
     )
 
     data_final = forms.DateTimeField(
+        required=False,
         input_formats=['%d/%m/%Y %H:%M']
     )
 

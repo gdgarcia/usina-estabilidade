@@ -390,7 +390,7 @@ class BlocoData(models.Model):
         return stab_eqs.xcg_empuxo_agua2(
             self.nr, self.bloco.cota_base_montante,
             self.bloco.cota_base_jusante,
-            bloco_especial=self.bloco.tipo
+            tipo_bloco=self.bloco.tipo
         )
 
     @property
