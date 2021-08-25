@@ -14,7 +14,7 @@ class Usina(models.Model):
 
     def __str__(self):
         return self.nome
-    
+
     def get_absolute_url(self):
         return reverse('app:usina_detail', kwargs={'pk': self.id})
 
@@ -56,7 +56,6 @@ class Bloco(models.Model):
     )
     cota_base_montante = models.FloatField(
         verbose_name='Cota da base de montante [m]'
-    
     )
     cota_base_jusante = models.FloatField(
         verbose_name='Cota da base jusante [m]'
@@ -120,7 +119,7 @@ class Bloco(models.Model):
         ('max', 'Máximo entre piezômetros'),
         ('avg', 'Média entre piezômetros'),
     ]
-    
+
     pz_m_0 = models.IntegerField()
     pz_m_rel = models.CharField(max_length=3, choices=ESCOLHAS_RELACAO,
                                 verbose_name='Escolha relação - Piezômetros m')
@@ -138,10 +137,10 @@ class Bloco(models.Model):
 
     def __str__(self):
         return f"{self.nome} | {self.usina}"
-    
+
     def get_absolute_url(self):
         return reverse('app:bloco_detail', kwargs={'pk': self.id})
-    
+
     class Meta:
         ordering = ('usina', 'nome')
         unique_together = ['nome', 'usina']
@@ -187,7 +186,7 @@ class NrXcgCoeff(models.Model):
 
     def __str__(self):
         return f"nr-xcg-coeffs | {self.bloco}"
-    
+
     @property
     def poly(self):
         return Polynomial([self.xcg_c0, self.xcg_c1, self.xcg_c2, self.xcg_c3])
@@ -207,7 +206,7 @@ class BlocoData(models.Model):
 
     def __str__(self):
         return f"{self.bloco} | {self.data}"
-    
+
     def get_absolute_url(self):
         return reverse('app:blocodata_detail', kwargs={'pk': self.id})
 
@@ -216,7 +215,7 @@ class BlocoData(models.Model):
         verbose_name_plural = 'dados de blocos'
         ordering = ('bloco', 'data')
         unique_together = ['data', 'bloco']
-    
+
     @property
     def npr(self):
         return stab_eqs.npr(
@@ -228,20 +227,20 @@ class BlocoData(models.Model):
         return stab_eqs.area_jq(
             self.bloco.dist_xj, self.pzi, self.pzj
         )
-    
+
     @property
     def area_jqx(self):
         return stab_eqs.area_jqx(
             self.bloco.dist_xj
         )
-    
+
     @property
     def area_iq(self):
         return stab_eqs.area_iq(
             self.bloco.dist_xi, self.bloco.dist_xj, 
             self.pzi, self.pzm
         )
-    
+
     @property
     def area_iqx(self):
         return stab_eqs.area_iqx(

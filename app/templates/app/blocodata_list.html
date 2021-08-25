@@ -134,9 +134,14 @@
     {% else %}
         <h1>Não há blocos de dados cadastrados</h1>
         <p class="lead">
-            <a href="{% url 'app:blocodata_create' %}">Clique aqui </a>
-            para criar novo dado de bloco.
+            Clique no botão abaixo para criar novo dado de bloco.
         </p>
     {% endif %}
+
+    <div class="row my-5">
+        <div class="col text-center">
+            <a href="{% url 'app:blocodata_create' %}" class="btn btn-primary btn-lg">+ Criar Novo</a>
+        </div>
+    </div>
 
 {% endblock content %}

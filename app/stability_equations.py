@@ -126,7 +126,7 @@ def xcg_sedimento(cota_ogiva, cota_sedimento, cota_base_jusante):
 
 def v_empuxo_agua1(nr, pzm, c1=224.95, c2=1.6548, c3=28.125, c4=4.85,
                    tipo_bloco=1, largura=0.):
-    if tipo_bloco == 2:  # bloco especial (tipo 5)
+    if tipo_bloco == 3:  # bloco especial (tipo 5)
         return (
             (0.5 * (nr - c1)**2 + (c2 * pzm + c3)) * c4
         )
@@ -140,11 +140,11 @@ def v_empuxo_agua1(nr, pzm, c1=224.95, c2=1.6548, c3=28.125, c4=4.85,
 
 def v_empuxo_agua2(nr, cota_base_montante, c1=18.35,
                    tipo_bloco=1, largura=0.):
-    if tipo_bloco == 2:  # bloco especial (tipo 5)
+    if tipo_bloco == 3:  # bloco especial (tipo 5)
         return (
             0.5 * c1 * (nr - cota_base_montante)**2
         )
-    elif tipo_bloco == 3:  # bloco tipo blocos 6-15
+    elif tipo_bloco == 2:  # bloco tipo blocos 6-15
         return (
             0.5 * largura * (nr - cota_base_montante)**2
         )
